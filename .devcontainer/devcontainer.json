@@ -9,7 +9,7 @@
     "customizations": {
         "vscode": {
             "extensions": [
-                "ms-python.python",
+                "ms-python.python"
             ],
             "settings": {
                 "python.terminal.activateEnvInCurrentTerminal": true,
