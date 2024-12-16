@@ -24,7 +24,7 @@ void generateAESKey(time_t seed, unsigned char *key, size_t keySize)
     // removed for obscurity
 }
 
-int encrypt_aes_ecb(unsigned char *plaintext, int plaintext_length,
+int encrypt_aes_cbc(unsigned char *plaintext, int plaintext_length,
                 unsigned char *key, unsigned char *iv, unsigned char *ciphertext)
 {
     int ciphertext_length = 0;
@@ -124,7 +124,7 @@ int main(int argc, char *argv[])
     }
     printf("\n");
 
-    ciphertext_length = encrypt_aes_ecb(file_content, file_size, aesKey, iv, ciphertext);    
+    ciphertext_length = encrypt_aes_cbc(file_content, file_size, aesKey, iv, ciphertext);    
 
     free(file_content);
 
