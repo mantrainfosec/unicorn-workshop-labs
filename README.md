@@ -20,9 +20,13 @@ Download the latest Ghidra: [Releases](https://github.com/NationalSecurityAgency
 
 ## Github Codespaces
 
-Instead of using a virtual machine, it is possible to run the whole environment in Github Codespaces (in your browser). Follow the steps below:
+Instead of using a virtual machine, it's possible to run the whole environment in Github Codespaces (in your browser). Follow the steps below:
 1. Login to your Github account
 2. Fork this repository
 3. Click the green <> Code button
 4. Select Codespaces
-5. Click on "Create codespaces on main" - and wait for a minute or two or refresh the page
+5. Click on "Create codespaces on main"
+
+You still need to run Ghidra on your computer though.  
+
+Disclaimer: Do not forget to stop your instance after you are done.
