@@ -14,7 +14,7 @@ from unicorn.x86_const import *
 import struct
 
 # Read the ELF binary
-with open("/home/training/training/01caesar/01caesar", "rb") as f:
+with open("01caesar", "rb") as f:
     binary = f.read()
 
 # Set the memory address where the code will be loaded (base address)

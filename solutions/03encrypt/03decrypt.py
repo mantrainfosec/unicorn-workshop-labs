@@ -20,33 +20,6 @@ SCRATCH_SIZE = 0x1000
 SEGMENT_SIZE = 0x1000
 SCRATCH_ADDR = 0xf000
 
-def set_msr(uc, msr, value, scratch=SCRATCH_ADDR):
-    '''
-    set the given model-specific register (MSR) to the given value.
-    this will clobber some memory at the given scratch address, as it emits some code.
-    '''
-    # save clobbered registers
-    orax = uc.reg_read(UC_X86_REG_RAX)
-    ordx = uc.reg_read(UC_X86_REG_RDX)
-    orcx = uc.reg_read(UC_X86_REG_RCX)
-    orip = uc.reg_read(UC_X86_REG_RIP)
-
-    # x86: wrmsr
-    buf = b'\x0f\x30'
-    uc.mem_write(scratch, buf)
-    uc.reg_write(UC_X86_REG_RAX, value & 0xFFFFFFFF)
-    uc.reg_write(UC_X86_REG_RDX, (value >> 32) & 0xFFFFFFFF)
-    uc.reg_write(UC_X86_REG_RCX, msr & 0xFFFFFFFF)
-    uc.emu_start(scratch, scratch+len(buf), count=1)
-
-    # restore clobbered registers
-    uc.reg_write(UC_X86_REG_RAX, orax)
-    uc.reg_write(UC_X86_REG_RDX, ordx)
-    uc.reg_write(UC_X86_REG_RCX, orcx)
-    uc.reg_write(UC_X86_REG_RIP, orip)
-# ignored until here
-
-
 def hook_block(uc, address, size, user_data):
     print(">>> Tracing block at 0x%x, instruction size = 0x%x" %(address, size))
     rip = uc.reg_read(UC_X86_REG_RIP)
@@ -80,7 +53,7 @@ uc = Uc(UC_ARCH_X86, UC_MODE_64)
 # Settings FS
 uc.mem_map(SEGMENT_ADDR, SEGMENT_SIZE)
 uc.mem_map(SCRATCH_ADDR, SCRATCH_SIZE)
-set_msr(uc, FSMSR, SEGMENT_ADDR)
+uc.reg_write(UC_X86_REG_FS_BASE, SEGMENT_ADDR)
 
 # Map memory for the code
 uc.mem_map(ADDRESS, 6*1024*1024)  # 6 MB

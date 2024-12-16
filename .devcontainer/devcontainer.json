@@ -21,7 +21,12 @@
                     "**/.devcontainer": true
                 }
             }
+        },
+        "codespaces": {
+            "openFiles": [
+                "00start/00start.py"
+            ]
         }
     },
-    "postCreateCommand": "python3 -m venv .venv && .venv/bin/python -m pip install -r requirements.txt"
+    "postCreateCommand": " ython3 -m venv .venv && .venv/bin/python -m pip install -r requirements.txt"
 }

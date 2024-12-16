@@ -32,7 +32,7 @@ uc.mem_write(ADDRESS, binary)
 # Set the string and offset values in memory
 input_str = b"Hello Unicorn!"
 offset = 3
-length = 14
+length = 14 # strlen(input_str)
 uc.mem_write(ADDRESS + [HERE], input_str)  # Address where input_str is stored (binary 16K, string at 17K)
 uc.reg_write(UC_X86_REG_[HERE], [HERE])  # Set the first argument (address of the string)
 uc.reg_write(UC_X86_REG_[HERE], [HERE])  # Set the second argument (offset)

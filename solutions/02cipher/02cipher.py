@@ -33,7 +33,7 @@ def hook_mem_access(uc, access, address, size, value, user_data):
                 %(address, size))
 
 # Read the ELF binary
-with open("/home/training/training/02cipher/02cipher", "rb") as f:
+with open("02cipher", "rb") as f:
     binary = f.read()
 
 # Set the memory address where the code will be loaded (base address)
