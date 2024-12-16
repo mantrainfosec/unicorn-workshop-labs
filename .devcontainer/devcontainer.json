@@ -1,0 +1,27 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/cpp
+{
+    "name": "unicorn-workshop",
+    "build": {
+        "dockerfile": "Dockerfile"
+    },
+    // Configure tool-specific properties.
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-python.python",
+            ],
+            "settings": {
+                "python.terminal.activateEnvInCurrentTerminal": true,
+                "python.defaultInterpreterPath": ".venv/bin/python",
+                "files.exclude": {
+                    "**/.venv": true,
+                    "**/.editorconfig": true,
+                    "**/.gitignore": true,
+                    "**/.devcontainer": true
+                }
+            }
+        }
+    },
+    "postCreateCommand": "python3 -m venv .venv && .venv/bin/python -m pip install -r requirements.txt"
+}
