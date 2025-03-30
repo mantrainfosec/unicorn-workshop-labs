@@ -1,5 +1,11 @@
 # Defeating Encryption By Using Unicorn Engine - Workshop
 
+## Software Reverse Engineering Training
+
+If you're enjoying this workshop and want to take your skills to the next level, check out our [Software Reverse Engineering Training](https://mantrainfosec.com/training-sre.html). The course covers real-world techniques used by professionals, from analyzing binaries to writing custom scripts for reverse engineering.  
+
+Whether you're a beginner or an experienced analyst, there's a course tailored for you!
+
 ## Intro
 
 Software Reverse-Engineering (SRE) is often considered black magic, but with the right tools and knowledge, its processes can be significantly accelerated. Unicorn Engine is a powerful framework that allows you to execute code platform-independently, which can greatly enhance your SRE skills.
