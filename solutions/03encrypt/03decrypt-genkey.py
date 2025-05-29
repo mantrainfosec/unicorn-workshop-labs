@@ -45,7 +45,9 @@ with open("03encrypt", "rb") as f:
     binary = f.read()
 
 # Set the memory address where the code will be loaded (base address)
-ADDRESS = 0x400000
+BINARY = 0x00400000
+STACK = 0x00500000
+HEAP = 0x00600000
 
 # Create an instance of the Unicorn Engine emulating x64
 uc = Uc(UC_ARCH_X86, UC_MODE_64)
@@ -56,34 +58,32 @@ uc.mem_map(SCRATCH_ADDR, SCRATCH_SIZE)
 uc.reg_write(UC_X86_REG_FS_BASE, SEGMENT_ADDR)
 
 # Map memory for the code
-uc.mem_map(ADDRESS, 6*1024*1024)  # 6 MB
+uc.mem_map(BINARY, 6*1024*1024)  # 6 MB
 
 # Write the ELF binary to the memory
-uc.mem_write(ADDRESS, binary)
+uc.mem_write(BINARY, binary)
 
 # Set the string and offset values in memory
 seed = 0x65bcea5f
 key_length = 16
 
-DATA = 6*1024*1024 - 1024
-
 #void generateAESKey(time_t *seed, unsigned char *key, size_t keySize) 
 
 uc.reg_write(UC_X86_REG_RDI, seed)  # Set the first argument (seed)
-uc.reg_write(UC_X86_REG_RSI, ADDRESS + DATA)  # Set the second argument (key output address)
+uc.reg_write(UC_X86_REG_RSI, HEAP)  # Set the second argument (key output address)
 uc.reg_write(UC_X86_REG_RDX, key_length)  # Set the third argument (key length)
 
-uc.reg_write(UC_X86_REG_RSP, ADDRESS + DATA + 512)  # Set the stack if needed
+uc.reg_write(UC_X86_REG_RSP, STACK + 512)  # Set the stack if needed
 
-#uc.hook_add(UC_HOOK_CODE, hook_code, None, ADDRESS + 0x2de5, ADDRESS + 0x2e4b)
+#uc.hook_add(UC_HOOK_CODE, hook_code, None, BINARY + 0x2de5, BINARY + 0x2e4b)
 #uc.hook_add(UC_HOOK_MEM_READ, hook_mem_access)
 
 # Emulate code execution
 try:
-    uc.emu_start(ADDRESS + 0x2de5, ADDRESS + 0x2e4b)  # Address of the call
+    uc.emu_start(BINARY + 0x2de5, BINARY + 0x2e4b)  # Address of the call
 
     # Read the result from memory (assuming the C program prints the result)
-    result = uc.mem_read(ADDRESS + DATA, key_length)
+    result = uc.mem_read(HEAP, key_length)
     print(f"Deciphered string: {result}")
 
 except UcError as e:
