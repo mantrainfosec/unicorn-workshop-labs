@@ -76,7 +76,7 @@ uc.reg_write(UC_X86_REG_[HERE], [HERE])  # Set the third argument (key length)
 
 uc.reg_write(UC_X86_REG_RSP, [HERE])  # Set the stack if needed
 
-#uc.hook_add(UC_HOOK_CODE, hook_code, None, BASE + 0x2de5, BASE + 0x2e4b)
+#uc.hook_add(UC_HOOK_CODE, hook_code, None, BASE + 0xXXXX, BASE + 0xXXXX)
 #uc.hook_add(UC_HOOK_MEM_READ, hook_mem_access)
 
 # Emulate code execution
