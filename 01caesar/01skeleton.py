@@ -18,7 +18,7 @@ with open("[HERE]", "rb") as f:
     binary = f.read()
 
 # Set the memory address where the code will be loaded (base address)
-BINARY = [HERE]
+BASE = [HERE]
 STACK = [HERE]
 HEAP = [HERE]
 
@@ -26,12 +26,12 @@ HEAP = [HERE]
 uc = Uc(UC_ARCH_X86, UC_MODE_64)
 
 # Map memory for the code
-uc.mem_map(BINARY, [HERE])  # 2 MB
+uc.mem_map(BASE, [HERE])  # 2 MB
 uc.mem_map(STACK, [HERE])  # 1 MB
 uc.mem_map(HEAP, [HERE])  # 1 MB
 
 # Write the ELF binary to the memory
-uc.mem_write(BINARY, binary)
+uc.mem_write(BASE, binary)
 
 # Set the string and offset values in memory
 input_str = b"Hello Unicorn!"
@@ -46,7 +46,7 @@ uc.reg_write(UC_X86_REG_[HERE], [HERE])  # Set the stack (RSP)
 
 # Emulate code execution
 try:
-    uc.emu_start(BINARY + [HERE], BINARY + [HERE])  # Address of the caesar_cipher call
+    uc.emu_start(BASE + [HERE], BASE + [HERE])  # Address of the caesar_cipher call
 
     # Read the result from memory (assuming the C program prints the result)
     result = uc.mem_read(HEAP, len(input_str)).decode("utf-8")

@@ -37,7 +37,7 @@ with open("02cipher", "rb") as f:
     binary = f.read()
 
 # Set the memory address where the code will be loaded (base address)
-BINARY = 0x00100000
+BASE = 0x00100000
 STACK = 0x00400000
 HEAP = 0x00500000
 
@@ -45,12 +45,12 @@ HEAP = 0x00500000
 uc = Uc(UC_ARCH_X86, UC_MODE_64)
 
 # Map memory for the code
-uc.mem_map(BINARY, 1024 * 1024)  # 1 MB
+uc.mem_map(BASE, 1024 * 1024)  # 1 MB
 uc.mem_map(STACK, 1024 * 1024)  # 1 MB
 uc.mem_map(HEAP, 1024 * 1024)  # 1 MB
 
 # Write the ELF binary to the memory
-uc.mem_write(BINARY, binary)
+uc.mem_write(BASE, binary)
 
 # Set the string and offset values in memory
 input_str = b"E0TgnZ0 h0JT0k uaQQT0J kzQkZ5 ZkQZkyk05!\x00"
@@ -59,12 +59,12 @@ uc.reg_write(UC_X86_REG_RDI, HEAP)  # Set the first argument (address of the str
 
 uc.reg_write(UC_X86_REG_RSP, STACK + 512)  # Set the stack if needed
 
-#uc.hook_add(UC_HOOK_CODE, hook_code, None, BINARY, BINARY + (3*1024*1024))
+#uc.hook_add(UC_HOOK_CODE, hook_code, None, BASE, BASE + (3*1024*1024))
 #uc.hook_add(UC_HOOK_MEM_READ, hook_mem_access)
 
 # Emulate code execution
 try:
-    uc.emu_start(BINARY + 0x12b5, BINARY + 0x13cf)  # Address of the call
+    uc.emu_start(BASE + 0x12b5, BASE + 0x13cf)  # Address of the call
 
     # Read the result from memory (assuming the C program prints the result)
     result = uc.mem_read(HEAP, len(input_str)).decode("utf-8")

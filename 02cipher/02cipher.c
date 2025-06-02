@@ -80,7 +80,7 @@ void substitutionDecipher(char *input)
 
 int main() {
     char message[] = "Hello this is NOT the secret message.";
-    char secret[] = "E0TgnZ0 h0JT0k uaQQT0J kzQkZ5 ZkQZkyk05!";
+    char secret[] = "E0TgnZ0 h0JT0k kzQkZ5 ZkQZkyk05!";
 
     substitutionCipher(message);
 

@@ -45,7 +45,7 @@ with open("[HERE]", "rb") as f:
     binary = f.read()
 
 # Set the memory address where the code will be loaded (base address)
-BINARY = [HERE]
+BASE = [HERE] # Base address from Ghidra: 0x400000
 STACK = [HERE]
 HEAP = [HERE]
 
@@ -58,10 +58,12 @@ uc.mem_map(SCRATCH_ADDR, SCRATCH_SIZE)
 uc.reg_write(UC_X86_REG_FS_BASE, SEGMENT_ADDR)
 
 # Map memory for the code
-uc.mem_map(BINARY, [HERE])  # filesize?
+uc.mem_map(BASE, [HERE])  # filesize?
+uc.mem_map(STACK, [HERE])  # 1 Mb
+uc.mem_map(HEAP, [HERE])  # 1 Mb
 
 # Write the ELF binary to the memory
-uc.mem_write(BINARY, binary)
+uc.mem_write(BASE, binary)
 
 # Set the string and offset values in memory
 seed = [HERE]
@@ -74,12 +76,12 @@ uc.reg_write(UC_X86_REG_[HERE], [HERE])  # Set the third argument (key length)
 
 uc.reg_write(UC_X86_REG_RSP, [HERE])  # Set the stack if needed
 
-#uc.hook_add(UC_HOOK_CODE, hook_code, None, BINARY + 0x2de5, BINARY + 0x2e4b)
+#uc.hook_add(UC_HOOK_CODE, hook_code, None, BASE + 0x2de5, BASE + 0x2e4b)
 #uc.hook_add(UC_HOOK_MEM_READ, hook_mem_access)
 
 # Emulate code execution
 try:
-    uc.emu_start(BINARY + [HERE], BINARY + [HERE])  # Address of the call
+    uc.emu_start(BASE + [HERE], BASE + [HERE])  # Address of the call
 
     # Read the result from memory (assuming the C program prints the result)
     result = uc.mem_read([HERE], key_length)
